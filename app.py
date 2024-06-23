@@ -29,26 +29,26 @@ def build_sidebar():
 
 def build_main(tickers, prices):
     weights = np.ones(len(tickers))/len(tickers)
-    prices['portfolio'] = prices.drop("IBOV", axis=1) @ weights
-    norm_prices = 10 * prices / prices.iloc[0]
+    prices['Portfolio'] = prices.drop("IBOV", axis=1) @ weights
+    norm_prices = 100 * prices / prices.iloc[0]
     returns = prices.pct_change()[1:]
-    vols = returns.std()*np.sqrt(10)
-    rets = (norm_prices.iloc[-1] - 10) / 10
+    vols = returns.std()*np.sqrt(100)
+    rets = (norm_prices.iloc[-1] - 100) / 100
 
-    mygrid = grid(5 ,5 ,5 ,5 ,5 , 5, vertical_align="top")
+    mygrid = grid(2 ,2 ,2 ,2 ,2 , 2, vertical_align="top")
     for t in prices.columns:
         c = mygrid.container(border=True)
         c.subheader(t, divider="red")
         colA, colB, colC = c.columns(3)
-        if t == "portfolio":
+        if t == "Portfolio":
             colA.image("Logo/pie-chart-dollar-svgrepo-com.svg")
         elif t == "IBOV":
             colA.image("Logo/pie-chart-svgrepo-com.svg")
         else:
-            colA.image(f'https://raw.githubusercontent.com/thefintz/icones-b3/main/icones/{t}.png', width=50)
-        colB.metric(label="retorno", value=f"{rets[t]:.0%}")
-        colC.metric(label="volatilidade", value=f"{vols[t]:.0%}")
-        style_metric_cards(background_color='rgba(100,100,100,0)')
+            colA.image(f'https://raw.githubusercontent.com/thefintz/icones-b3/main/icones/{t}.png', width=85)
+        colB.metric(label="Retabilidade", value=f"{rets[t]:.0%}")
+        colC.metric(label="Volatilidade", value=f"{vols[t]:.0%}")
+        style_metric_cards(background_color='rgba(255,255,255,0)')
 
     col1, col2 = st.columns(2, gap='large')
     with col1:
